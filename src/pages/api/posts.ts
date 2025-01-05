@@ -1,6 +1,8 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 
+export const prerender = false;
+
 export const GET: APIRoute = async ({ params, request }) => {
     // en los params vienen los parámetros de la URL
     // en el request vienen los datos de la petición
