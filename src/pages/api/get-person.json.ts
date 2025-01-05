@@ -13,10 +13,10 @@ export const GET: APIRoute = async ({ params, request }) => {
   };
   // devuelve una respuesta
   return new Response(
-    JSON.stringify(persona),
-     { status: 200 ,
+    JSON.stringify(persona),{
+        status: 200 ,
         headers: {
             "Content-Type": "application/json",
-          },
+        },
      });
 };
