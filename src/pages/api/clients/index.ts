@@ -1,9 +1,10 @@
 import type { APIRoute } from "astro";
-import { getCollection, getEntry } from "astro:content";
 import { Clients, db } from "astro:db";
 
 export const prerender = false;
 
+
+// obtiene todos los clientes
 export const GET: APIRoute = async ({ params, request }) => {
   // en los params vienen los parámetros de la URL
   // en el request vienen los datos de la petición
@@ -24,6 +25,8 @@ export const GET: APIRoute = async ({ params, request }) => {
   );
 };
 
+
+// crea un nuevo cliente
 export const POST: APIRoute = async ({ params, request }) => {
   // en los params vienen los parámetros de la URL
   // en el request vienen los datos de la petición
@@ -51,17 +54,4 @@ export const POST: APIRoute = async ({ params, request }) => {
       headers: { "Content-Type": "application/json" },
     });
   }
-};
-
-export const PUT: APIRoute = async ({ params, request }) => {
-  // en los params vienen los parámetros de la URL
-  // en el request vienen los datos de la petición
-
-  const body = await request.json(); // extraemos el body de la petición
-
-  // devuelve una respuesta
-  return new Response(JSON.stringify({ method: "PUT", ...body }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
 };
