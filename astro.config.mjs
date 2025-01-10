@@ -4,7 +4,12 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 import db from '@astrojs/db';
-import vercel from '@astrojs/vercel';
+
+
+
+
+import netlify from '@astrojs/netlify';
+
 
 
 
@@ -12,6 +17,5 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   site: 'https://example.com',
   integrations: [mdx(), sitemap(), db()],
-  output: 'static',
-  adapter: vercel()
+  adapter: netlify(),
 });
