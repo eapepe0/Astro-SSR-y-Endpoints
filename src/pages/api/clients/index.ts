@@ -11,7 +11,7 @@ export const GET: APIRoute = async ({ params, request }) => {
 
   const clientes = await db.select().from(Clients); // extraemos los clientes de la base de datos
 
-  console.log(clientes)
+
   return new Response(
     JSON.stringify({
       method: "GET",

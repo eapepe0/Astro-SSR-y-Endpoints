@@ -1,5 +1,7 @@
 import type { APIRoute } from "astro";
 import { Clients, db, eq } from "astro:db";
+import { turso } from '../../../turso.ts';
+
 
 export const prerender = false;
 
@@ -9,13 +11,28 @@ export const GET: APIRoute = async ({ params, request }) => {
   // en el request vienen los datos de la petición
   const clientId = params.clientId ?? ""; // extraemos el clientId de los parámetros de la URL
 
-  //const cliente = await db.select().from(Clients).where({id : clientId}); // extraemos el cliente de la base de datos
+  // extraemos el cliente de la base de datos
+  const cliente = await db.select().from(Clients).where(eq(Clients.id , +clientId)); 
 
+  // si no se encuentra el cliente
+  if (!cliente.length) {
+    return new Response(
+      JSON.stringify({
+        error: "Cliente no encontrado",
+      }),
+      {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+
+  // si encuentra el cliente
   return new Response(
     JSON.stringify({
       method: "GET",
       msg: `GET el cliente ${clientId} desde [clientId].ts`,
-      body: "",
+      body: cliente.at(0),
     }),
     {
       status: 200,
