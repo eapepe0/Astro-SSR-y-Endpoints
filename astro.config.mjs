@@ -18,5 +18,5 @@ export default defineConfig({
   site: 'https://example.com',
   integrations: [mdx(), sitemap(), db()],
   adapter: netlify(),
-  output: 'server',
+  output: 'static',
 });
