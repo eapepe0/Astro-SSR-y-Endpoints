@@ -2,11 +2,9 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import cloudflare from '@astrojs/cloudflare';
-
-
 
 import db from '@astrojs/db';
+import vercel from '@astrojs/vercel';
 
 
 
@@ -15,5 +13,5 @@ export default defineConfig({
   site: 'https://example.com',
   integrations: [mdx(), sitemap(), db()],
   output: 'static',
-  adapter: cloudflare()
+  adapter: vercel()
 });
