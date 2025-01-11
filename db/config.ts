@@ -15,12 +15,19 @@ const Clients = defineTable({
   }
 })
 
-
+const Posts = defineTable({
+  columns : {
+    id : column.text({primaryKey : true}),
+    title : column.text(),
+    likes:column.number()
+  }
+})
 
 // https://astro.build/db/config
 export default defineDb({
   // Define las tablas de la base de datos
   tables: {
     Clients,
+    Posts
   }
 });
