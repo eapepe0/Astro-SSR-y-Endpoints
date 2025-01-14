@@ -1,9 +1,9 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogPost from '@layouts/BlogPost.astro';
-import { render } from 'astro:content';
 import LikeCounter from '@components/likes/LikeCounter.vue'
 
+export const prerender = true
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
-const { Content } = await render(post);
+const { Content } = await post.render();
 ---
 
 <BlogPost {...post.data}>
