@@ -19,7 +19,7 @@
 <script lang="ts" setup>
     import { ref, watch } from 'vue';
     import confetti from 'canvas-confetti';
-
+    import debounce from 'lodash.debounce';
 
     // definimos una interfaz en el cual nuestras Props es un postId que es un string
     interface Props{
@@ -37,7 +37,7 @@
 
 
     // revisamos la variable likeCount cuando se ejecute por primera vez o cambie dispara la funcion
-    watch(likeCount , () => {
+    watch(likeCount , debounce(() => {
         // enviamos un PUT con el valor de los clicks
         fetch(`/api/posts/likes/${props.postId}`,{
             method : 'PUT',
@@ -48,7 +48,7 @@
         })
 
         likeClicks.value = 0; // reiniciamos el contador
-    })
+    },700))
 
 
     // funcion

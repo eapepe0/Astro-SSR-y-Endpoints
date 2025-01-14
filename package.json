@@ -18,8 +18,10 @@
     "@astrojs/vue": "^5.0.4",
     "@libsql/client": "^0.14.0",
     "@types/canvas-confetti": "^1.9.0",
+    "@types/lodash.debounce": "^4.0.9",
     "astro": "^5.1.2",
     "canvas-confetti": "^1.9.3",
+    "lodash.debounce": "^4.0.8",
     "vue": "^3.5.13"
   }
 }
