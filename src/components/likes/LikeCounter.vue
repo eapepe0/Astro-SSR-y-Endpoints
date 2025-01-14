@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-    import { ref } from 'vue';
+    import { ref, watch } from 'vue';
     import confetti from 'canvas-confetti';
 
 
@@ -34,6 +34,21 @@
     const likeCount = ref(0) ; // cuenta cuantos likes tiene el post 
     const likeClicks = ref(0) ; // cuantas veces hicimos clicks
     const isLoading = ref(true) ; // si ya termino de cargar 
+
+
+    // revisamos la variable likeCount cuando se ejecute por primera vez o cambie dispara la funcion
+    watch(likeCount , () => {
+        // enviamos un PUT con el valor de los clicks
+        fetch(`/api/posts/likes/${props.postId}`,{
+            method : 'PUT',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            body : JSON.stringify({likes : likeClicks.value})
+        })
+
+        likeClicks.value = 0; // reiniciamos el contador
+    })
 
 
     // funcion
