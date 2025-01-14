@@ -39,7 +39,7 @@
     // revisamos la variable likeCount cuando se ejecute por primera vez o cambie dispara la funcion
     watch(likeCount , debounce(() => {
         // enviamos un PUT con el valor de los clicks
-        fetch(`/api/likes/${props.postId}`,{
+        fetch(`/api/posts/likes/${props.postId}`,{
             method : 'PUT',
             headers : {
                 'Content-Type' : 'application/json'
@@ -70,7 +70,7 @@
 
     const getCurrentLikes = async() => {
         // hago la llamada a la api pasandole el post
-        const resp = await fetch(`/api/likes/${props.postId}`)
+        const resp = await fetch(`/api/posts/likes/${props.postId}`)
 
         // si la respuesta no es buena no hacemos nada
         if(!resp.ok) return
