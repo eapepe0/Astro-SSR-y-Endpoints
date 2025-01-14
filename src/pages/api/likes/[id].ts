@@ -5,43 +5,42 @@ import { db, eq, Posts } from "astro:db";
 export const prerender = false;
 
 
-export const GET: APIRoute = async ({ params, request }) => {
-    // en los params vienen los parámetros de la URL
-    // en el request vienen los datos de la petición
-    const postId = params.id ?? ''; 
+export const GET: APIRoute = async ({ params }) => {
+    try {
+        const postId = params.id ?? '';
+        if (!postId) {
+            return new Response(
+                JSON.stringify({ error: "Missing post ID" }),
+                { status: 400, headers: { 'Content-Type': 'application/json' } }
+            );
+        }
 
-    const posts = await db.select().from(Posts).where(eq(Posts.id , postId));
+        const posts = await db.select().from(Posts).where(eq(Posts.id, postId));
 
-   // si no existe el post
-   if(!posts.length){
+        if (!posts.length) {
+            const post = {
+                id: postId,
+                title: "Post not found",
+                likes: 0,
+            };
+            return new Response(JSON.stringify(post), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+            });
+        }
 
-    // creamos un post con los datos de error
-    const post = {
-        id : postId ,
-        title : "Post not found",
-        likes : 0
+        return new Response(JSON.stringify(posts.at(0)), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        });
+    } catch (error) {
+        console.error("Error in GET /api/likes:", error);
+        return new Response(
+            JSON.stringify({ error: "Internal server error", details: error.message }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
     }
-
-    // devolvemos los datos con error
-    return new Response(JSON.stringify(post),{
-        status : 200 ,
-        headers : {
-            'Content-Type' : 'application/json'
-        }
-     })
-   } // fin if
-
-   
-
-   // devolvemos los valores obtenidos de la DB , en caracter 0 por que es un array , obtenemos solo el objeto
-   return new Response(JSON.stringify(posts.at(0)),{
-        status : 200 ,
-        headers : {
-            'Content-Type' : 'application/json'
-        }
-    })
-
-}
+};
 
 export const PUT: APIRoute = async ({ params, request }) => {
     // en los params vienen los parámetros de la URL
