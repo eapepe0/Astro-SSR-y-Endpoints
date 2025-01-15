@@ -20,6 +20,7 @@
     import { ref, watch } from 'vue';
     import confetti from 'canvas-confetti';
     import debounce from 'lodash.debounce';
+import { actions } from 'astro:actions';
 
     // definimos una interfaz en el cual nuestras Props es un postId que es un string
     interface Props{
@@ -53,10 +54,21 @@
 
     // funcion
 
-    const likePost = () => {
+    const likePost = async() => {
         likeCount.value++; // incrementamos el contador de likes
         likeClicks.value++; // incrementamos el contador de clicks
         
+        const {data , error} = await actions.getGreeting({
+            age : 38,
+            name : 'Cristian',
+            isActive : true
+        })
+
+        if (error){
+            return alert('Algo salio mal')
+        }
+
+        console.log(data)
         // mostramos el confetti
         confetti({
         particleCount : 100,
