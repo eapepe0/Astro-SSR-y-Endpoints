@@ -20,7 +20,8 @@
     import { ref, watch } from 'vue';
     import confetti from 'canvas-confetti';
     import debounce from 'lodash.debounce';
-import { actions } from 'astro:actions';
+    import { actions } from 'astro:actions';
+    
 
     // definimos una interfaz en el cual nuestras Props es un postId que es un string
     interface Props{
@@ -37,20 +38,14 @@ import { actions } from 'astro:actions';
     const isLoading = ref(true) ; // si ya termino de cargar 
 
 
-    // revisamos la variable likeCount cuando se ejecute por primera vez o cambie dispara la funcion
-    watch(likeCount , debounce(() => {
-        // enviamos un PUT con el valor de los clicks
-        fetch(`/api/posts/likes/${props.postId}`,{
-            method : 'PUT',
-            headers : {
-                'Content-Type' : 'application/json'
-            },
-            body : JSON.stringify({likes : likeClicks.value})
-        })
-
-        likeClicks.value = 0; // reiniciamos el contador
-    },700))
-
+    
+    watch(likeCount, debounce(async () => {
+        await actions.updatePostLikes({
+            postId: props.postId,
+            increment: likeClicks.value,
+        });
+        likeClicks.value = 0;
+    }, 700));
 
     // funcion
 
@@ -68,7 +63,7 @@ import { actions } from 'astro:actions';
             return alert('Algo salio mal')
         }
 
-        console.log(data)
+        // console.log(data)
         // mostramos el confetti
         confetti({
         particleCount : 100,

@@ -1,6 +1,3 @@
-
-
-
 import {db , eq , Posts} from "astro:db";
 import { defineAction } from "astro:actions";
 import { z } from 'astro:schema';
@@ -18,8 +15,14 @@ export const getPostLikes = defineAction({
 
         // si posts no existe 
         if(!posts){
-            return {likes : 0}
+            return {
+                likes : 0,
+                exist : false
+            }
         }
-        return { likes : posts.likes };// retorna esto
+        return { 
+            likes : posts.likes,
+            exist : true
+        };// retorna esto
     },
 });
